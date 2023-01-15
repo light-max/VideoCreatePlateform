@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>视频分享后台系统</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/comm.css">
+
+    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.js"></script>
+    <script src="/js/net.js"></script>
+
+    <style>
+
+    </style>
+
+    <script>
+        function search() {
+            window.location.href = "/admin/user?w=" + $("#search_w").val()
+        }
+
+        function editUser(id) {
+            net.get({
+                url: "/api/user/details/" + id,
+                toast: true,
+                success: function (user) {
+                    $("#dlg").modal("toggle");
+                    $("#e-id").val(user['id']);
+                    $("#e-username").val(user['username']);
+                    $("#e-nickname").val(user['nickname']);
+                    $(`input[value=${user['gender']}]`).attr("checked", "checked");
+                    $("#e-birthday").val(user['birthday']);
+                    $("#e-des").text(user['des']);
+                }
+            })
+        }
+
+        function saveEdit() {
+            net.put({
+                url: "/admin/user/update/" + $("#e-id").val(),
+                data: {
+                    nickname: $("#e-nickname").val(),
+                    gender: $("input[name=e-gender]:checked").val(),
+                    birthday: $("#e-birthday").val(),
+                    des: $("#e-des").val()
+                },
+                toast: true,
+                reload: true
+            })
+        }
+
+        function deleteUser(id) {
+            if (confirm("你确定要删除这个账号吗")) {
+                net.delete({
+                    url: "/admin/user/delete/" + id,
+                    toast: true,
+                    reload: true
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div th:replace="common/admin::navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="common/admin::sidebarMenu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"> 用户账号列表</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <input type="text" placeholder="输入检索关键字查询" id="search_w" th:value="${w}">&nbsp;
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="search()">检索</button>&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal"
+                            data-target="#add" onclick="window.location.href='/admin/user/add'">添加账号
+                    </button>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>生日</th>
+                    <th style="width: 60px;text-align: center">性别</th>
+                    <th style="width: 120px;text-align: center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user:${list}">
+                    <th th:text="${user.id}"></th>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.nickname}"></td>
+                    <td th:text="${user.birthday}"></td>
+                    <td class="text-center" th:text="${user.gender.replace('female','女').replace('male','男')}"></td>
+                    <td class="text-center">
+                        <a href="#" class="text-primary" th:onclick="'editUser('+${user.id}+')'">编辑</a>
+                        <a href="#" class="text-danger" th:onclick="'deleteUser('+${user.id}+')'">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div th:replace="common/admin::page"></div>
+            <br>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
+
+<div class="modal fade" id="dlg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">修改账号信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input hidden id="e-id">
+                <label for="e-username">用户名</label>
+                <input class="form-control form-text" type="text" id="e-username" readonly><br>
+                <label for="e-nickname">昵称</label>
+                <input class="form-control form-text" type="text" id="e-nickname"><br>
+                <div>
+                    <label>性别:&nbsp;</label>
+                    <input type="radio" id="e-male" name="e-gender" value="male">
+                    <label for="e-male">男</label>
+                    <input type="radio" id="e-female" name="e-gender" value="female">
+                    <label for="e-female">女</label>
+                </div>
+                <br>
+                <label for="e-birthday">生日</label>
+                <input class="form-control form-text" type="text" id="e-birthday" placeholder="格式为yyyy-MM-dd"><br>
+                <label for="e-des">个人简介</label>
+                <textarea class="form-text form-control" id="e-des" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveEdit()">提交</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

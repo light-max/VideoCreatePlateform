@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    username: root
+    password: 1234
+    url: jdbc:mysql://localhost:3306/db_video_create_plateform?serverTimezone=GMT%2B8&tinyInt1isBit=false&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    mode: HTML5
+    cache: false
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  web:
+    resources:
+      chain:
+        strategy:
+          content:
+            paths: /**
+            enabled: true

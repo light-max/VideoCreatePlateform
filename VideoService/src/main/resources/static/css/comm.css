@@ -1,0 +1,17 @@
+.bt {
+    width: 120px;
+    line-height: 24px;
+    margin-top: 8px
+}
+
+.blue {
+    color: #274bb3;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.red {
+    color: #d53232;
+    font-weight: bold;
+    text-decoration: none;
+}

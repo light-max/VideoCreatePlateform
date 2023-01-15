@@ -1,0 +1,132 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>视频分享后台系统</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/comm.css">
+
+    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.js"></script>
+    <script src="/js/net.js"></script>
+
+    <style>
+        .student-item {
+            display: grid;
+            grid-template-columns: 60px 240px 240px 240px 60px 200px;
+            line-height: 32px;
+        }
+
+        .student-item-head {
+            font-weight: bold;
+        }
+
+        .student-item > div {
+            border: gray 1px solid;
+            text-align: center;
+        }
+
+        .student-item > input {
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        var index = 1
+
+        function addItem() {
+            $("#teacher-list").append(`<div class="student-item" id="${index}">
+<div class="index"><b>${index}</b></div>
+<input class="username" type="text" placeholder="请输入用户名">
+<input class="password" type="password" placeholder="请输入登录密码">
+<input class="nickname" type="text" placeholder="请输入用户昵称" value="新用户">
+<select class="gender">
+<option value="male">男</option>
+<option value="female">女</option>
+</select>
+<div>
+<a href="#" class="blue rand">随机密码</a>
+<a href="#" class="blue show">显示密码</a>
+<a href="#" class="red delete">删除</a>
+</div>
+</div>`);
+            var id = `#${index}`
+            $(id).find(".delete").on("click", function () {
+                $(id).remove();
+            });
+            $(id).find(".show").on("click", function () {
+                var p = $(id).find(".password");
+                var type = p.attr("type");
+                if (type === "password") {
+                    p.attr("type", "text");
+                } else {
+                    p.attr("type", "password");
+                }
+            });
+            $(id).find(".rand").on("click", function () {
+                var p = $(id).find(".password");
+                p.val(Math.round(Math.random() * 10000))
+            });
+            index++;
+        }
+
+        function saveAll() {
+            var list = []
+            $(".student-item:not(.student-item-head)").each((i, item) => {
+                var o = $(item);
+                list.push({
+                    index: o.children(".index").text(),
+                    username: o.children(".username").val(),
+                    password: o.children(".password").val(),
+                    nickname: o.children(".nickname").val(),
+                    gender: o.children(".gender").val()
+                });
+            });
+            net.post({
+                url: "/admin/user/add",
+                json: list,
+                toast: true,
+                success: function () {
+                    window.location.href = "/admin/user";
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+
+<div th:replace="common/admin::navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="common/admin::sidebarMenu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">待添加账号列表</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="addItem()">添加条目</button>
+                    &nbsp;&nbsp;
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="saveAll()">保存所有数据</button>
+                </div>
+            </div>
+            <div style="height: 80vh;overflow: scroll;">
+                <div class="student-item student-item-head">
+                    <div>序号</div>
+                    <div>账号(4-16位)</div>
+                    <div>密码(4-16位)</div>
+                    <div>昵称</div>
+                    <div>性别</div>
+                    <div>操作</div>
+                </div>
+                <div id="teacher-list"></div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+</script>

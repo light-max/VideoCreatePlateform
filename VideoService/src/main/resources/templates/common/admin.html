@@ -1,0 +1,79 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<nav th:fragment="navbar" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/admin">短视频分享平台 - 后台管理系统</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
+            data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!--    <input class="form-control form-control-dark w-100" type="text" placeholder="搜索" aria-label="Search">-->
+    <div class="w-100"></div>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/admin/logout">退出登陆</a>
+        </li>
+    </ul>
+</nav>
+
+<nav th:fragment="sidebarMenu" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+    <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-light" th:classappend="${view=='user'?'active':''}"
+                   href="/admin/user">
+                    用户账号管理
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-light" th:classappend="${view=='adduser'?'active':''}"
+                   href="/admin/user/add">
+                    添加用户账号
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-light" th:classappend="${view=='video'?'active':''}"
+                   href="/admin/video">
+                    视频作品管理
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-light" th:classappend="${view=='comment'?'active':''}"
+                   href="/admin/comment">
+                    评论管理
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-light" th:classappend="${view=='setpwd'?'active':''}"
+                   href="/admin/setpwd">
+                    修改登录密码
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<nav th:fragment="page" aria-label="Page navigation example" th:if="${pager}!=null">
+    <ul class="pagination" th:if="${pager.pageCount>1}">
+        <li class="page-item" th:if="${pager.currentPage!=1}">
+            <a class="page-link" th:href="${pager.url}+${pager.tailAppend}">首页</a>
+        </li>
+        <li class="page-item" th:if="${pager.currentPage>1}">
+            <a class="page-link" th:href="${pager.url}+'/'+(${pager.currentPage}-1)+${pager.tailAppend}">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="i:${#numbers.sequence(pager.beginIndex(),pager.endIndex())}"
+            th:classappend="${pager.currentPage==i}?'active':''">
+            <a class="page-link" th:href="${pager.url}+'/'+${i}+${pager.tailAppend}" th:text="${i}"></a>
+        </li>
+        <li class="page-item" th:if="${pager.currentPage<pager.pageCount}">
+            <a class="page-link" th:href="${pager.url}+'/'+(${pager.currentPage}+1)+${pager.tailAppend}">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:if="${pager.currentPage!=pager.pageCount}">
+            <a class="page-link" th:href="${pager.url}+'/'+${pager.pageCount}+${pager.tailAppend}">
+                尾页[[${pager.pageCount}]]
+            </a>
+        </li>
+    </ul>
+</nav>

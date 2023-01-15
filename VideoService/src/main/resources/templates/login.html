@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+
+    <style>
+        main {
+            width: max-content;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        form {
+            width: 400px;
+        }
+
+        body {
+            background: url("/img/bg.jpg");
+        }
+    </style>
+</head>
+
+<body>
+<main>
+    <form class="shadow-lg p-3 mb-5 bg-white rounded" method="post" action="/admin/login">
+        <br><br>
+        <h1 class="display-4 text-center">管理员</h1>
+        <p class="lead text-center">请登录</p>
+        <hr class="my-4">
+        <input type="text" class="form-control form-group text-center" placeholder="请输入用户名" th:value="${username}"
+               name="username">
+        <input type="password" class="form-control form-group text-center" placeholder="请输入密码" th:value="${password}"
+               name="password">
+        <div class="alert alert-danger text-center" role="alert" th:if="${error}!=null" th:text="${error}">
+        </div>
+        <input class="btn btn-dark btn-block" type="submit" value="登陆">
+        <br>
+    </form>
+    <br>
+    <br>
+    <br>
+</main>
+</body>
+</html>
