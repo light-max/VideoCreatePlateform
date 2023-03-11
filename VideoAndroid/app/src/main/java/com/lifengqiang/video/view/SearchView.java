@@ -64,7 +64,7 @@ public class SearchView extends LinearLayout {
         imm.hideSoftInputFromWindow(((AppCompatActivity) getContext()).getWindow().getDecorView().getWindowToken(), 0);
         if (onSearchListener != null && !text.trim().isEmpty()) {
             onSearchListener.onSearch(text);
-        } else {
+        } else if (onResetListener != null) {
             onResetListener.onReset();
         }
     }

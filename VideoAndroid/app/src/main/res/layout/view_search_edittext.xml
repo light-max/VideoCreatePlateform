@@ -3,50 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_search_view"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_search"
-        app:tint="@color/teal_700" />
-
-    <EditText
-
-        android:id="@+id/value"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@null"
-        android:hint="搜索帖子或用户"
-        android:imeOptions="actionSearch"
-        android:lines="1"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:background="@drawable/bg_search_view"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/clear"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:padding="4dp"
-        android:src="@drawable/ic_close_circle" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_search"
+            app:tint="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="搜索视频或用户"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="4dp"
+            android:src="@drawable/ic_close_circle" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/button"
         android:layout_width="52dp"
         android:layout_height="match_parent"
-        android:layout_marginEnd="12dp"
         android:gravity="center"
         android:text="搜索"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/white"
         android:textSize="16sp" />
 
 </LinearLayout>

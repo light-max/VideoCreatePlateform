@@ -3,7 +3,9 @@ package com.lifengqiang.video.controller.api;
 import com.lifengqiang.video.constant.GlobalConstant;
 import com.lifengqiang.video.model.data.Result;
 import com.lifengqiang.video.model.entity.User;
+import com.lifengqiang.video.model.result.UserDetails;
 import com.lifengqiang.video.service.LoginService;
+import com.lifengqiang.video.service.UserService;
 import com.lifengqiang.video.util.UseDefaultSuccessResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +20,19 @@ public class LoginController {
     @Resource
     LoginService service;
 
+    @Resource
+    UserService userService;
+
     @PostMapping("/user/login")
     @ResponseBody
-    public Result<User> login(HttpSession session, String username, String password) {
+    public Result<UserDetails> login(HttpSession session, String username, String password) {
         Result<User> result = service.user(username, password);
         if (result.isSuccess()) {
             session.setAttribute("user", result.getData());
+            return Result.success(userService.getDetails(result.getData().getId()));
+        } else {
+            return Result.error(result.getMessage());
         }
-        return result;
     }
 
     @GetMapping("/user/notloggedin")

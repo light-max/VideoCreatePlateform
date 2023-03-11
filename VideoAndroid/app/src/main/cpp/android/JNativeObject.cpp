@@ -3,10 +3,15 @@
 //
 #include <jni.h>
 #include "comm/NativeObjectManager.h"
+#include "renderer/camerapreview/CameraPreviewRenderer.h"
+#include "renderer/shader/shader.h"
+#include "renderer/image/AndroidImage.h"
+#include "renderer/image/NativeImage.h"
+#include "media/encoder/FFMediaEncoder.h"
 
 extern "C" {
 JNIEXPORT jlong JNICALL
-Java_com_lifengqiang_filtercamera_interfaces_NativeObject_createNativeObject(
+Java_com_lifengqiang_video_jni_interfaces_NativeObject_createNativeObject(
         JNIEnv *env,
         jobject thiz,
         jstring class_name) {
@@ -18,7 +23,7 @@ Java_com_lifengqiang_filtercamera_interfaces_NativeObject_createNativeObject(
 }
 
 JNIEXPORT void JNICALL
-Java_com_lifengqiang_filtercamera_interfaces_NativeObject_destroyNativeObject(
+Java_com_lifengqiang_video_jni_interfaces_NativeObject_destroyNativeObject(
         JNIEnv *env,
         jobject thiz,
         jstring class_name,
@@ -32,9 +37,25 @@ Java_com_lifengqiang_filtercamera_interfaces_NativeObject_destroyNativeObject(
 }
 
 JNIEXPORT void JNICALL
-Java_com_lifengqiang_filtercamera_renderer_NativeFunctionSetup_registerNativeObject(
+Java_com_lifengqiang_video_jni_NativeFunctionSetup_registerNativeObject(
         JNIEnv *env, jclass clazz) {
     auto *manager = android::NativeObjectManager::get_instance();
+    manager->register_class<CameraPreviewRenderer>(
+            "com.lifengqiang.video.jni.renderer.CameraPreviewRenderer");
+    manager->register_class<AndroidImage>(
+            "com.lifengqiang.video.jni.renderer.AndroidImage");
+    manager->register_class<NativeImage>(
+            "com.lifengqiang.video.jni.renderer.NativeImage");
+    manager->register_class<FFMediaEncoder>(
+            "com.lifengqiang.video.jni.encoder.FFMediaEncoder");
 }
 
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lifengqiang_video_jni_NativeFunctionSetup_registerAssetManager(
+        JNIEnv *env, jclass clazz,
+        jobject manager) {
+    shader::registerAssertManager(env, manager);
 }

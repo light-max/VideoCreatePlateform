@@ -89,6 +89,11 @@ public class RequestBuilder implements Serializable {
         return this;
     }
 
+    public RequestBuilder json(Object object) {
+        getDataNotNull().setJsonObject(object);
+        return this;
+    }
+
     private String buildUrl() {
         // 请求路径
         StringBuilder pathBuilder = new StringBuilder();
@@ -141,17 +146,18 @@ public class RequestBuilder implements Serializable {
         if (Method.GET.equals(method)) {
             return null;
         } else {
-            if (data != null && data.field != null) {
-                if (BodyType.FORM.equals(data.type)) {
-                    return RequestData.buildDataForm(data);
-                } else if (BodyType.URLENCODED.equals(data.type)) {
-                    return RequestData.buildUrlEncoded(data);
-                } else {
-                    return RequestData.buildEmptyBody();
+            if (data != null) {
+                if (BodyType.RAW.equals(data.type)) {
+                    return RequestData.buildRaw(data);
+                } else if (data.field != null) {
+                    if (BodyType.FORM.equals(data.type)) {
+                        return RequestData.buildDataForm(data);
+                    } else if (BodyType.URLENCODED.equals(data.type)) {
+                        return RequestData.buildUrlEncoded(data);
+                    }
                 }
-            } else {
-                return RequestData.buildEmptyBody();
             }
+            return RequestData.buildEmptyBody();
         }
     }
 

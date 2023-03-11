@@ -3,11 +3,17 @@
     package="com.lifengqiang.video">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:name=".App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VideoShare"
@@ -19,6 +25,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.account.login.LoginActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".ui.account.register.RegisterActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".ui.main.MainPageActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
+        <activity android:name=".ui.setting.user.UserInfoActivity" />
+        <activity android:name=".ui.setting.password.PasswordSetActivity" />
+        <activity android:name=".ui.setting.head.HeadSetActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.create.record.RecordActivity" />
+        <activity android:name=".ui.create.test.RecordTestActivity" />
+        <activity android:name=".ui.create.photo.image.PhotoImageActivity" />
+        <activity android:name=".ui.create.photo.video.PhotoVideoActivity" />
+        <activity android:name=".ui.create.submit.video.SubmitVideoActivity" />
+        <activity android:name=".ui.create.submit.image.SubmitImageActivity" />
     </application>
 
 </manifest>

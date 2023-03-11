@@ -22,3 +22,9 @@ spring:
           content:
             paths: /**
             enabled: true
+file:
+  images:
+    head: G:/VideoSharePlatform/userhead
+    works: G:/VideoSharePlatform/works/images
+  videos:
+    works: G:/VideoSharePlatform/works/videos

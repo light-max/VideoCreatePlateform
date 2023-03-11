@@ -20,4 +20,10 @@ public class FileTools {
         in.close();
         out.close();
     }
+
+    public static File getHeadImagePath(String parent, Integer id) {
+        File file = new File(parent);
+        file.mkdirs();
+        return new File(parent, String.valueOf(id));
+    }
 }

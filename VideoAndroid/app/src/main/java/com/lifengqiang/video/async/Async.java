@@ -3,26 +3,35 @@ package com.lifengqiang.video.async;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Async implements RunToMainThread {
     private static final boolean debug = true;
 
     private Thread mThread;
 
-    private Call.OnBefore before;
-    private Call.OnReturnData success;
-    private Call.OnSuccess success2;
-    private Call.OnError error;
-    private Call.OnAfter after;
+    private final List<Call.OnBefore> before = new ArrayList<>();
+    private final List<Call.OnReturnData> success = new ArrayList<>();
+    private final List<Call.OnSuccess> success2 = new ArrayList<>();
+    private final List<Call.OnError> error = new ArrayList<>();
+    private final List<Call.OnAfter> after = new ArrayList<>();
 
     private AsyncTaskRunnable runnable;
+    private Runnable runnable2;
 
     private boolean useMainHandler = true;
 
     public void go() {
-        runToMainThread(before);
+        runToMainThread(() -> {
+            for (Call.OnBefore onBefore : before) {
+                onBefore.run();
+            }
+        });
         mThread = new Thread(() -> {
             try {
                 Object result = runnable == null ? null : runnable.run();
+                if (runnable2 != null) runnable2.run();
                 if (result instanceof AsyncTaskError) {
                     runToMainThread(() -> {
                         AsyncTaskError e = (AsyncTaskError) result;
@@ -31,29 +40,37 @@ public class Async implements RunToMainThread {
                                 e.getException().printStackTrace();
                             }
                         }
-                        if (error != null) {
-                            error.onError(e.getMessage(), e.getException());
+                        for (Call.OnError onError : error) {
+                            onError.onError(e.getMessage(), e.getException());
                         }
                     });
                 } else {
-                    if (success != null) {
-                        runToMainThread(() -> {
-                            success.onSuccess(result);
-                        });
-                    }
-                    runToMainThread(success2);
+                    runToMainThread(() -> {
+                        for (Call.OnReturnData onReturnData : success) {
+                            onReturnData.onSuccess(result);
+                        }
+                    });
+                    runToMainThread(() -> {
+                        for (Call.OnSuccess onSuccess : success2) {
+                            onSuccess.run();
+                        }
+                    });
                 }
             } catch (Exception e) {
                 if (debug) {
                     e.printStackTrace();
                 }
-                if (error != null) {
-                    runToMainThread(() -> {
-                        error.onError(null, e);
-                    });
-                }
+                runToMainThread(() -> {
+                    for (Call.OnError onError : error) {
+                        onError.onError(null, e);
+                    }
+                });
             }
-            runToMainThread(after);
+            runToMainThread(() -> {
+                for (Call.OnAfter onAfter : after) {
+                    onAfter.run();
+                }
+            });
         }, this.toString());
         mThread.start();
     }
@@ -85,32 +102,37 @@ public class Async implements RunToMainThread {
         private Async async = new Async();
 
         public Builder<T> before(Call.OnBefore before) {
-            async.before = before;
+            async.before.add(before);
             return this;
         }
 
         public Builder<T> success(Call.OnReturnData<T> success) {
-            async.success = success;
+            async.success.add(success);
             return this;
         }
 
         public Builder<T> success(Call.OnSuccess success) {
-            async.success2 = success;
+            async.success2.add(success);
             return this;
         }
 
         public Builder<T> error(Call.OnError error) {
-            async.error = error;
+            async.error.add(error);
             return this;
         }
 
         public Builder<T> after(Call.OnAfter after) {
-            async.after = after;
+            async.after.add(after);
             return this;
         }
 
         public Builder<T> task(AsyncTaskRunnable task) {
             async.runnable = task;
+            return this;
+        }
+
+        public Builder<T> task(Runnable runnable) {
+            async.runnable2 = runnable;
             return this;
         }
 

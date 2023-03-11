@@ -12,7 +12,7 @@ import com.lifengqiang.video.net.result.Result;
 import java.util.List;
 
 public class ExRequestBuilder extends RequestBuilder {
-    private static final String baseUrl = "http://192.168.31.84:8080";
+    private static final String baseUrl = "http://192.168.43.114:8080";
 
     public static String getUrl(String url) {
         if (url.startsWith("http")) {

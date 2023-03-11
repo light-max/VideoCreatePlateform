@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.format.DateTimeFormatter;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -30,7 +32,7 @@ public class User implements FieldCheckInterface<User> {
     private String password;
 
     @StringNonNull("昵称不能为空")
-    @StringLengthMax(msg = "昵称不能超过${value}个字符", value = 30)
+    @StringLengthMax(msg = "昵称不能超过${value}个字符", value = 12)
     private String nickname;
 
     @StringEnum({"male", "female"})
@@ -39,6 +41,8 @@ public class User implements FieldCheckInterface<User> {
     @DateFormat(msg = "生日格式为yyyy-MM-dd", value = "yyyy-MM-dd")
     private String birthday;
 
-    @StringLengthMax(msg = "个人简介不能超过${value}个字符", value = 100)
+    public static DateTimeFormatter BIRTHDAY_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    @StringLengthMax(msg = "个人简介不能超过${value}个字符", value = 40)
     private String des;
 }

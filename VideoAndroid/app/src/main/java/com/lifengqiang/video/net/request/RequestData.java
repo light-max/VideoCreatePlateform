@@ -1,5 +1,7 @@
 package com.lifengqiang.video.net.request;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class RequestData {
     public Map<String, Object> params;
     public Map<String, String> headers;
     public Map<String, Object> field;
+    public Object jsonObject;
 
     public void setType(@BodyType String type) {
         this.type = type;
@@ -48,6 +51,10 @@ public class RequestData {
             field = new HashMap<>();
         }
         field.put(key, value);
+    }
+
+    public void setJsonObject(Object json) {
+        this.jsonObject = json;
     }
 
     @Override
@@ -128,7 +135,14 @@ public class RequestData {
     }
 
     public static RequestBody buildEmptyBody() {
+        System.out.println("empty");
         MediaType mediaType = MediaType.parse("text/plain");
-        return RequestBody.create(mediaType, "");
+        return RequestBody.create("", mediaType);
+    }
+
+    public static RequestBody buildRaw(RequestData data) {
+        MediaType mediaType = MediaType.parse("application/json");
+        String json = new Gson().toJson(data.jsonObject);
+        return RequestBody.create(json, mediaType);
     }
 }

@@ -10,10 +10,13 @@ import com.lifengqiang.video.fieldcheck.FieldCheckException;
 import com.lifengqiang.video.mapper.UserMapper;
 import com.lifengqiang.video.model.entity.User;
 import com.lifengqiang.video.model.request.UserAccountData;
+import com.lifengqiang.video.model.request.UserInfo;
 import com.lifengqiang.video.model.result.UserDetails;
 import com.lifengqiang.video.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +62,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public UserDetails getDetails(Integer id) {
         User user = getById(id);
         GlobalConstant.dataNotExists.notNull(user);
+        LocalDate birthday = LocalDate.parse(user.getBirthday(), User.BIRTHDAY_FORMAT);
+        LocalDate now = LocalDate.now(ZoneId.of("GMT+8"));
         return UserDetails.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -66,11 +71,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .des(user.getDes())
                 .gender(user.getGender())
                 .birthday(user.getBirthday())
+                .age(now.getYear() - birthday.getYear())
                 .head("/head/" + user.getId())
                 .friend(false)
                 .videoCount(0)
                 .followCount(0)
                 .followerCount(0)
+                .friendCount(0)
                 .build();
     }
 
@@ -87,5 +94,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .check();
         save(user);
         return getById(user.getId());
+    }
+
+    @Override
+    public User updateInfo(Integer id, UserInfo info) {
+        User user = getOne(new QueryWrapper<User>()
+                .lambda()
+                .eq(User::getUsername, info.getUsername()));
+        GlobalConstant.usernameExists.isFalse(user != null && !user.getId().equals(id));
+        User newUser = User.builder()
+                .id(id)
+                .nickname(info.getNickname())
+                .des(info.getDes())
+                .gender(info.getGender())
+                .birthday(info.getBirthday())
+                .username(info.getUsername())
+                .build()
+                .check();
+        updateById(newUser);
+        return newUser;
     }
 }

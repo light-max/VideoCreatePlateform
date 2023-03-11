@@ -13,9 +13,11 @@ public class UserDetails {
     private String birthday;
     private String des;
 
+    private int age;
     private boolean friend;
     private String head;
     private int videoCount;
     private int followCount;
     private int followerCount;
+    private int friendCount;
 }

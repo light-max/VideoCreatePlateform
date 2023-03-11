@@ -5,14 +5,26 @@ cmake_minimum_required(VERSION 3.18.1)
 include_directories(.)
 include_directories(./comm)
 include_directories(./ffmpeg/include)
+include_directories(./libyuv)
 
 add_library(renderer SHARED
         android/JniManager.cpp
         android/JNativeObject.cpp
-        
+        android/JCameraPreviewRenderer.cpp
+        android/JAndroidImage.cpp
+        android/JNativeImage.cpp
+        android/JMediaRecordEncoder.cpp
+
         comm/NativeObjectManager.cpp
         comm/pfr.cpp
 
+        renderer/camerapreview/CameraPreviewRenderer.cpp
+        renderer/shader/shader.cpp
+        renderer/image/AndroidImage.cpp
+        renderer/image/NativeImage.cpp
+        renderer/frame/i420frame/GLI420Frame.cpp
+
+        media/encoder/FFMediaEncoder.cpp
         )
 
 #ff
@@ -40,6 +52,14 @@ add_library(swscale SHARED IMPORTED)
 set_target_properties(swscale PROPERTIES IMPORTED_LOCATION
         ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libswscale.so)
 #ff
+#libyuv
+add_library(yuv SHARED IMPORTED)
+set_target_properties(yuv PROPERTIES IMPORTED_LOCATION
+        ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libyuv.so)
+add_library(yuvutil SHARED IMPORTED)
+set_target_properties(yuvutil PROPERTIES IMPORTED_LOCATION
+        ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libyuvutil.so)
+#libyuv
 
 target_link_libraries(renderer
         android
@@ -52,4 +72,6 @@ target_link_libraries(renderer
         postproc
         swresample
         swscale
+        yuv
+        yuvutil
         )
