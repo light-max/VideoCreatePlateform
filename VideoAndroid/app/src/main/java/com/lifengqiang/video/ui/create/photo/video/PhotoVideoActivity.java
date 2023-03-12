@@ -23,11 +23,13 @@ public class PhotoVideoActivity extends CaptionedActivity<PhotoVideoView> {
         File[] dirs = {
                 getExternalFilesDir("record/video"),
                 new File("/sdcard/DCIM"),
+                new File("/sdcard/Download")
         };
         new Thread(() -> {
             List<File> files = new ArrayList<>();
             find(files, dirs[0]);
             find(files, dirs[1]);
+            find(files, dirs[2]);
             files.sort((o1, o2) -> Long.compare(o2.lastModified(), o1.lastModified()));
             mainHandler.post(() -> {
                 view.getAdapter().setData(files);

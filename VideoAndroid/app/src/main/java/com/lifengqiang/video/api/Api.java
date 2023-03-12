@@ -6,6 +6,7 @@ import com.lifengqiang.video.data.request.NewUserInfo;
 import com.lifengqiang.video.data.result.User;
 
 import java.io.File;
+import java.util.List;
 
 public class Api {
     public static Async.Builder<User> login(String username, String password) {
@@ -60,5 +61,21 @@ public class Api {
                 .async();
     }
 
+    public static Async.Builder<?> submitImages(String content, List<File> files) {
+        return ExRequestBuilder.post("/user/works/images")
+                .form()
+                .field("content", content)
+                .field("files", files)
+                .<ExRequestBuilder>as()
+                .async();
+    }
 
+    public static Async.Builder<?> submitVideo(String content, File file) {
+        return ExRequestBuilder.post("/user/works/video")
+                .form()
+                .field("content", content)
+                .field("file", file)
+                .<ExRequestBuilder>as()
+                .async();
+    }
 }

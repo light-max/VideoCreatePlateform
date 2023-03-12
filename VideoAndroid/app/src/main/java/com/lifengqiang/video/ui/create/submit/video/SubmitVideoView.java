@@ -1,8 +1,10 @@
 package com.lifengqiang.video.ui.create.submit.video;
 
 import android.os.Bundle;
+import android.util.Size;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.lifengqiang.video.R;
@@ -47,7 +49,27 @@ public class SubmitVideoView extends BaseView<SubmitVideoActivity> {
         return surfaceView;
     }
 
-    public EditText getContent() {
-        return content;
+    public String getContent() {
+        return content.getText().toString();
+    }
+
+    public void setSurfaceSize(Size videoSize) {
+        float xl1 = (float) videoSize.getHeight() / videoSize.getWidth();
+        float xl2 = (float) surfaceView.getWidth() / surfaceView.getHeight();
+        if (xl1 > xl2) {
+            int height = surfaceView.getHeight();
+            int width = (int) (videoSize.getWidth() * ((float) height / videoSize.getHeight()));
+            ViewGroup.LayoutParams params = surfaceView.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            surfaceView.setLayoutParams(params);
+        } else {
+            int width = surfaceView.getWidth();
+            int height = (int) (videoSize.getHeight() * ((float) width / videoSize.getWidth()));
+            ViewGroup.LayoutParams params = surfaceView.getLayoutParams();
+            params.width = width;
+            params.height = height;
+            surfaceView.setLayoutParams(params);
+        }
     }
 }

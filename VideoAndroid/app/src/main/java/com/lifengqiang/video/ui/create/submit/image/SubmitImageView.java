@@ -1,6 +1,7 @@
 package com.lifengqiang.video.ui.create.submit.image;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -44,5 +45,10 @@ public class SubmitImageView extends BaseView<SubmitImageActivity> {
             indicator = get(R.id.indicator);
         }
         return indicator;
+    }
+
+    public String getContent() {
+        TextView textView = get(R.id.content);
+        return textView.getText().toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.lifengqiang.video.ui.create.submit.video;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaCodec;
@@ -7,11 +8,14 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Size;
 import android.view.Surface;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 
 import com.lifengqiang.video.R;
+import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.activity.CaptionedActivity;
 
 import java.io.File;
@@ -27,7 +31,19 @@ public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
         setPageTitle("视频发布");
         setContentView(R.layout.activity_submit_video);
         click(R.id.post, () -> {
-
+            AlertDialog dialog = new AlertDialog.Builder(getContext())
+                    .setView(new ProgressBar(getContext()))
+                    .setCancelable(false)
+                    .setMessage("正在上传...")
+                    .create();
+            Api.submitVideo(view.getContent(), new File(getPath()))
+                    .before(dialog::show)
+                    .after(dialog::dismiss)
+                    .error((message, e) -> toast(message))
+                    .success(() -> {
+                        toast("发布成功");
+                        finish();
+                    }).run();
         });
     }
 
@@ -70,8 +86,12 @@ public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
             return;
         }
         long duration = format == null ? 0 : format.getLong(MediaFormat.KEY_DURATION);
+        int width = format == null ? 0 : format.getInteger(MediaFormat.KEY_WIDTH);
+        int height = format == null ? 0 : format.getInteger(MediaFormat.KEY_HEIGHT);
+        mainHandler.post(() -> view.setSurfaceSize(new Size(width, height)));
         codec.configure(format, surface, null, 0);
         codec.start();
+        long time = System.currentTimeMillis();
         while (!Thread.currentThread().isInterrupted()) {
             int inputBufferIndex = codec.dequeueInputBuffer(2000);
             if (inputBufferIndex >= 0) {
@@ -84,6 +104,11 @@ public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
             }
             int outputBufferIndex = codec.dequeueOutputBuffer(info, 0);
             if (outputBufferIndex >= 0) {
+                long diff = System.currentTimeMillis() - time;
+                long sleep = info.presentationTimeUs / 1000 - diff;
+                if (sleep > 0) {
+                    SystemClock.sleep(sleep);
+                }
                 codec.releaseOutputBuffer(outputBufferIndex, true);
                 if (info.presentationTimeUs >= duration - 1000000) {
                     extractor.release();
@@ -95,11 +120,11 @@ public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
                         codec = MediaCodec.createDecoderByType(mime);
                         codec.configure(format, surface, null, 0);
                         codec.start();
+                        time = System.currentTimeMillis();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                SystemClock.sleep(40);
             }
         }
         extractor.release();

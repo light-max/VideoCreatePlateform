@@ -25,6 +25,6 @@ spring:
 file:
   images:
     head: G:/VideoSharePlatform/userhead
-    works: G:/VideoSharePlatform/works/images
-  videos:
-    works: G:/VideoSharePlatform/works/videos
+  works:
+    images: G:/VideoSharePlatform/works/images
+    videos: G:/VideoSharePlatform/works/videos

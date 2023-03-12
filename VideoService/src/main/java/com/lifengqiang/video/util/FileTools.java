@@ -26,4 +26,13 @@ public class FileTools {
         file.mkdirs();
         return new File(parent, String.valueOf(id));
     }
+
+    public static void deleteChildFiles(File file) {
+        File[] files = file.listFiles();
+        if (files != null && files.length > 0) {
+            for (File f : files) {
+                f.delete();
+            }
+        }
+    }
 }
