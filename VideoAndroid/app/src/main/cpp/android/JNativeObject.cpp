@@ -8,6 +8,8 @@
 #include "renderer/image/AndroidImage.h"
 #include "renderer/image/NativeImage.h"
 #include "media/encoder/FFMediaEncoder.h"
+#include "media/player/FFMediaPlayer.h"
+#include "renderer/videorenderer/VideoRenderer.h"
 
 extern "C" {
 JNIEXPORT jlong JNICALL
@@ -48,6 +50,10 @@ Java_com_lifengqiang_video_jni_NativeFunctionSetup_registerNativeObject(
             "com.lifengqiang.video.jni.renderer.NativeImage");
     manager->register_class<FFMediaEncoder>(
             "com.lifengqiang.video.jni.encoder.FFMediaEncoder");
+    manager->register_class<FFMediaPlayer>(
+            "com.lifengqiang.video.jni.player.FFMediaPlayer");
+    manager->register_class<VideoRenderer>(
+            "com.lifengqiang.video.jni.renderer.VideoRenderer");
 }
 
 }

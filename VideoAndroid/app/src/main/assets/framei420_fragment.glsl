@@ -10,6 +10,8 @@ void main() {
     float y = texture(yTexture, texCoord).r;
     float u = texture(uTexture, texCoord).r-0.5;
     float v = texture(vTexture, texCoord).r-0.5;
+//    float u = 0.0;
+//    float v = 0.0;
     rgb.r = y + 1.13983*v;
     rgb.g = y - 0.39465*u - 0.58060*v;
     rgb.b = y + 2.03211*u;

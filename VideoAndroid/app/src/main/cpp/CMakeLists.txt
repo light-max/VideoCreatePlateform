@@ -14,6 +14,8 @@ add_library(renderer SHARED
         android/JAndroidImage.cpp
         android/JNativeImage.cpp
         android/JMediaRecordEncoder.cpp
+        android/JFFMediaPlayer.cpp
+        android/JVideoRenderer.cpp
 
         comm/NativeObjectManager.cpp
         comm/pfr.cpp
@@ -22,9 +24,16 @@ add_library(renderer SHARED
         renderer/shader/shader.cpp
         renderer/image/AndroidImage.cpp
         renderer/image/NativeImage.cpp
+        renderer/image/NativeFrameBuffer.cpp
         renderer/frame/i420frame/GLI420Frame.cpp
+        renderer/videorenderer/VideoRenderer.cpp
 
         media/encoder/FFMediaEncoder.cpp
+        media/player/FFMediaPlayer.cpp
+        media/decoder/FFCodec.cpp
+        media/decoder/FFCodecAudio.cpp
+        media/decoder/FFCodecVideo.cpp
+        media/decoder/MsgQueue.cpp
         )
 
 #ff

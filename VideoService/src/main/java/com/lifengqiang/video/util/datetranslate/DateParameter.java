@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DateParameter {
     String value() default "YYYY年MM月dd日 HH:mm:ss";
+
+    boolean empty() default false;
 }

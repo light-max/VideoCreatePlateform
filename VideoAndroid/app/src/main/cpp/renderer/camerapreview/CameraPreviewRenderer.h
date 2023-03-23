@@ -65,7 +65,6 @@ public:
     }
 
     ~CameraPreviewRenderer() {
-        LOGI("de");
         delete vertex;
         delete screen_vertex;
         delete fboFrameBufferData;

@@ -1,21 +1,27 @@
 package com.lifengqiang.video.base.call;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
-
-import java.util.Objects;
 
 public interface ViewGet {
     default <T extends View> T get(@IdRes int viewId) {
         if (this instanceof Activity) {
             return ((Activity) this).findViewById(viewId);
         } else if (this instanceof Fragment) {
-            return Objects.requireNonNull(((Fragment) this).getView()).findViewById(viewId);
+            Fragment fragment = (Fragment) this;
+            View view = fragment.getView();
+            if (view == null) {
+                Log.w("ViewGet by " + getClass(), "getView()==null");
+                return null;
+            } else {
+                return view.findViewById(viewId);
+            }
         }
-        throw new RuntimeException(getClass().getTypeName() + "没有实现此方法");
+        throw new RuntimeException(getClass().getName() + "没有实现此方法");
     }
 
     default ViewGet click(@IdRes int viewId, Runnable listener) {

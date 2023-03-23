@@ -14,6 +14,8 @@ public class WorksResult {
     private String content;
     private long createTime;
 
+    private String date;
+
     private String username;
     private String nickname;
     private String userhead;
@@ -22,9 +24,10 @@ public class WorksResult {
     private String video;
     private List<String> images;
 
-    private boolean like;
     private boolean follwuser;
-    private boolean likeCount;
-    private boolean remarkCount;
+    private boolean like;
+    private int likeCount;
+    private int remarkCount;
     private boolean collect;
+    private int collectCount;
 }

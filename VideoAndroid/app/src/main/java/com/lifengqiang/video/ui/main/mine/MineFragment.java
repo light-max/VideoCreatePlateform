@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.lifengqiang.video.R;
 import com.lifengqiang.video.base.fragment.PresenterFragment;
+import com.lifengqiang.video.ui.follow.FollowActivity;
 import com.lifengqiang.video.ui.setting.SettingActivity;
 import com.lifengqiang.video.ui.setting.user.UserInfoActivity;
 
@@ -37,5 +38,9 @@ public class MineFragment extends PresenterFragment<MineView> {
             Intent intent = new Intent(getContext(), UserInfoActivity.class);
             startActivity(intent);
         });
+        Runnable relationOpen = () -> startActivity(new Intent(getContext(), FollowActivity.class));
+        click(R.id.friend_layout, relationOpen);
+        click(R.id.follow_layout, relationOpen);
+        click(R.id.follower_layout, relationOpen);
     }
 }

@@ -21,4 +21,8 @@ public interface UserService extends IService<User> {
     User addNew(String username, String password);
 
     User updateInfo(Integer id, UserInfo info);
+
+    List<UserDetails> getDetailsList(List<User> users);
+
+    List<UserDetails> getDetailsListByIds(List<Integer> ids);
 }

@@ -3,9 +3,11 @@ package com.lifengqiang.video.ui.create.submit.video;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Size;
@@ -19,8 +21,11 @@ import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.activity.CaptionedActivity;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
     public Thread thread;
@@ -36,14 +41,27 @@ public class SubmitVideoActivity extends CaptionedActivity<SubmitVideoView> {
                     .setCancelable(false)
                     .setMessage("正在上传...")
                     .create();
-            Api.submitVideo(view.getContent(), new File(getPath()))
-                    .before(dialog::show)
-                    .after(dialog::dismiss)
-                    .error((message, e) -> toast(message))
-                    .success(() -> {
-                        toast("发布成功");
-                        finish();
-                    }).run();
+            new Thread(() -> {
+                String videoFile = getPath();
+                File coverFile = new File(getExternalCacheDir(), UUID.randomUUID().toString() + ".jpg");
+                MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+                mmr.setDataSource(videoFile);
+                Bitmap bitmap = mmr.getFrameAtTime(0);
+                mmr.release();
+                try {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, new FileOutputStream(coverFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Api.submitVideo(view.getContent(), new File(videoFile), coverFile)
+                        .before(dialog::show)
+                        .after(dialog::dismiss)
+                        .error((message, e) -> toast(message))
+                        .success(() -> {
+                            toast("发布成功");
+                            finish();
+                        }).run();
+            }).start();
         });
     }
 

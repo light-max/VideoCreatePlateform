@@ -12,9 +12,13 @@ import com.lifengqiang.video.model.entity.User;
 import com.lifengqiang.video.model.request.UserAccountData;
 import com.lifengqiang.video.model.request.UserInfo;
 import com.lifengqiang.video.model.result.UserDetails;
+import com.lifengqiang.video.service.FollowService;
 import com.lifengqiang.video.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -22,6 +26,10 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Resource
+    @Lazy
+    FollowService followService;
+
     @Override
     public Page<User> queryUserByKey(Integer n, String w) {
         LambdaQueryWrapper<User> wrapper = new QueryWrapper<User>()
@@ -75,9 +83,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .head("/head/" + user.getId())
                 .friend(false)
                 .videoCount(0)
-                .followCount(0)
-                .followerCount(0)
-                .friendCount(0)
+                .followCount(followService.getFollowCount(id))
+                .followerCount(followService.getFollowerCount(id))
+                .friendCount(followService.getFriendCount(id))
                 .build();
     }
 
@@ -113,5 +121,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .check();
         updateById(newUser);
         return newUser;
+    }
+
+    @Override
+    public List<UserDetails> getDetailsList(List<User> users) {
+        List<UserDetails> details = new ArrayList<>();
+        for (User user : users) {
+            details.add(getDetails(user.getId()));
+        }
+        return details;
+    }
+
+    @Override
+    public List<UserDetails> getDetailsListByIds(List<Integer> ids) {
+        List<UserDetails> details = new ArrayList<>();
+        for (Integer id : ids) {
+            details.add(getDetails(id));
+        }
+        return details;
     }
 }

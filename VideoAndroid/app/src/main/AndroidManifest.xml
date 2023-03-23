@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
         android:name=".App"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -40,11 +40,13 @@
         <activity android:name=".ui.setting.head.HeadSetActivity" />
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.create.record.RecordActivity" />
-        <activity android:name=".ui.create.test.RecordTestActivity" />
         <activity android:name=".ui.create.photo.image.PhotoImageActivity" />
         <activity android:name=".ui.create.photo.video.PhotoVideoActivity" />
         <activity android:name=".ui.create.submit.video.SubmitVideoActivity" />
         <activity android:name=".ui.create.submit.image.SubmitImageActivity" />
+        <activity android:name=".ui.main.remark.remark.RemarkActivity" />
+        <activity android:name=".ui.main.remark.reply.ReplyActivity" />
+        <activity android:name=".ui.follow.FollowActivity" />
     </application>
 
 </manifest>

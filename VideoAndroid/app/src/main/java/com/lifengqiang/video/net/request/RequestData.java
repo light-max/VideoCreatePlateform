@@ -135,7 +135,6 @@ public class RequestData {
     }
 
     public static RequestBody buildEmptyBody() {
-        System.out.println("empty");
         MediaType mediaType = MediaType.parse("text/plain");
         return RequestBody.create("", mediaType);
     }
