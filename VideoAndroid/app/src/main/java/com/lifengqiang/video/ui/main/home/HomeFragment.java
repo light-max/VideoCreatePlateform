@@ -6,6 +6,7 @@ import android.os.HandlerThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,8 @@ public class HomeFragment extends PresenterFragment<HomeView> implements Vertica
     private int index = -1;
     private Handler backgroundHandler;
     private HandlerThread backgroundThread;
+
+    private boolean random = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +58,28 @@ public class HomeFragment extends PresenterFragment<HomeView> implements Vertica
         initDataNotifier.observe(this, o -> {
             getIView().getVideoContainer().loadVideo();
         });
+        click(R.id.follow, () -> {
+            index = -1;
+            ids.clear();
+            random = false;
+            getNewData();
+            TextView follow = get(R.id.follow);
+            TextView recommend = get(R.id.recommend);
+            follow.setTextColor(requireActivity().getColor(R.color.white));
+            recommend.setTextColor(requireActivity().getColor(R.color.gray_bbb));
+        });
+        click(R.id.recommend, () -> {
+            Api.resetRandomWorksIds().success(() -> {
+                index = -1;
+                ids.clear();
+                random = true;
+                getNewData();
+            }).run();
+            TextView follow = get(R.id.follow);
+            TextView recommend = get(R.id.recommend);
+            follow.setTextColor(requireActivity().getColor(R.color.gray_bbb));
+            recommend.setTextColor(requireActivity().getColor(R.color.white));
+        });
     }
 
     @Override
@@ -68,13 +93,22 @@ public class HomeFragment extends PresenterFragment<HomeView> implements Vertica
     }
 
     public void getNewData() {
-        Api.getRandomWorksIds().success(data -> {
-            if (index < 0) {
-                initDataNotifier.postValue(new Object());
-            }
-            index = Math.max(index, 0);
-            ids.addAll(data);
-        }).run();
+        if (random) {
+            Api.getRandomWorksIds().success(data -> {
+                if (index < 0) {
+                    initDataNotifier.postValue(new Object());
+                }
+                index = Math.max(index, 0);
+                ids.addAll(data);
+            }).run();
+        } else {
+            Api.getFollowWorksIds().success(data -> {
+                index = 0;
+                ids.clear();
+                ids.addAll(data);
+                getIView().getVideoContainer().loadVideo();
+            }).run();
+        }
     }
 
     @Override
@@ -134,9 +168,15 @@ public class HomeFragment extends PresenterFragment<HomeView> implements Vertica
 
     @Override
     public void resetData() {
-        index = -1;
-        ids.clear();
-        getNewData();
+        if (random) {
+            Api.resetRandomWorksIds().success(() -> {
+                index = -1;
+                ids.clear();
+                getNewData();
+            }).run();
+        } else {
+            toast("没有内容了");
+        }
     }
 
     @Override

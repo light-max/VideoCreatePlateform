@@ -26,7 +26,7 @@ public class SearchActivityView extends BaseView<SearchActivity> {
         super.onCreate(saveInstanceState);
         SearchView searchView = get(R.id.search);
         searchView.setOnSearchListener(text -> {
-
+            getPresenter().getSearchValue().postValue(text);
         });
         TabLayout tab = get(R.id.tab);
         ViewPager pager = get(R.id.pager);

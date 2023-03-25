@@ -38,4 +38,8 @@ public class VideoRenderer extends NativeObject implements GLSurfaceView.Rendere
         super.finalize();
         super.releaseNativeObject();
     }
+
+    public void release() {
+        super.releaseNativeObject();
+    }
 }

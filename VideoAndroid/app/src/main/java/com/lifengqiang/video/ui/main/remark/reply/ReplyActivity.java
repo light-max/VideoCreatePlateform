@@ -1,5 +1,6 @@
 package com.lifengqiang.video.ui.main.remark.reply;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,6 +9,7 @@ import com.lifengqiang.video.R;
 import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.activity.CaptionedActivity;
 import com.lifengqiang.video.data.result.Reply;
+import com.lifengqiang.video.ui.uspace.UserSpaceActivity;
 import com.lifengqiang.video.utils.AndroidBug5497Workaround;
 
 public class ReplyActivity extends CaptionedActivity<ReplyView> implements ReplyAdapter.Callback {
@@ -52,7 +54,9 @@ public class ReplyActivity extends CaptionedActivity<ReplyView> implements Reply
 
     @Override
     public void onOpenSpace(int userId, int position) {
-
+        Intent intent = new Intent(this, UserSpaceActivity.class);
+        intent.putExtra(UserSpaceActivity.USER_ID, userId);
+        startActivity(intent);
     }
 
     @Override

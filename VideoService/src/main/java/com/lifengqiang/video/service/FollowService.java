@@ -2,6 +2,7 @@ package com.lifengqiang.video.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lifengqiang.video.model.entity.Follow;
+import com.lifengqiang.video.model.entity.Works;
 import com.lifengqiang.video.model.result.UserDetails;
 import com.lifengqiang.video.model.result.UserFollow;
 
@@ -25,4 +26,8 @@ public interface FollowService extends IService<Follow> {
     List<UserFollow> getFollows(int userId);
 
     List<UserFollow> getFollowers(int userId);
+
+    List<Integer> getFollowWorksIdList(int userId);
+
+    List<Works> getFriendWorksIdList(int userId);
 }

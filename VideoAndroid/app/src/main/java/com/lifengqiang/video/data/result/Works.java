@@ -165,4 +165,28 @@ public class Works {
     public void setCollectCount(int collectCount) {
         this.collectCount = collectCount;
     }
+
+    @Override
+    public String toString() {
+        return "Works{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                ", createTime=" + createTime +
+                ", date='" + date + '\'' +
+                ", username='" + username + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", userhead='" + userhead + '\'' +
+                ", cover='" + cover + '\'' +
+                ", video='" + video + '\'' +
+                ", images=" + images +
+                ", follwuser=" + follwuser +
+                ", like=" + like +
+                ", likeCount=" + likeCount +
+                ", remarkCount=" + remarkCount +
+                ", collect=" + collect +
+                ", collectCount=" + collectCount +
+                '}';
+    }
 }

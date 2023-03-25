@@ -8,11 +8,13 @@ import com.lifengqiang.video.model.entity.Collect;
 import com.lifengqiang.video.service.CollectService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> implements CollectService {
     @Override
     public int getCount(int worksId) {
-         return count(new QueryWrapper<Collect>()
+        return count(new QueryWrapper<Collect>()
                 .lambda()
                 .eq(Collect::getWorksId, worksId));
     }
@@ -42,5 +44,10 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
             removeById(collect.getId());
             return false;
         }
+    }
+
+    @Override
+    public List<Integer> getCollectWorksIdList(int userId) {
+        return baseMapper.getWorksIdListByUserId(userId);
     }
 }

@@ -66,6 +66,23 @@ public:
         mAudio->mRenderCallback = aRenderCallback;
     }
 
+    ~FFMediaPlayer() {
+        delete mVideoPlayerCallback;
+        mVideoPlayerCallback = nullptr;
+        delete mGLSurfaceView;
+        mGLSurfaceView = nullptr;
+        delete mAudioTrack;
+        mAudioTrack = nullptr;
+        delete mPath;
+        mPath = nullptr;
+        mAudio->exit = true;
+        mAudio->exit = true;
+//        delete mVideo;
+        mVideo = nullptr;
+//        delete mAudio;
+        mAudio = nullptr;
+    }
+
     void setPath(const char *path) {
         this->mPath = path;
         mVideo->setPath(path);

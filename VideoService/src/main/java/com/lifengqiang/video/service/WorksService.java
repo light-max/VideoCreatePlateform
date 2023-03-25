@@ -14,6 +14,8 @@ public interface WorksService extends IService<Works> {
      */
     WorksResult getResult(int currentUserId, Works works);
 
+    List<WorksResult> getResultList(int currentUserId, List<Works> works);
+
     void addImagesWorks(int userId, String content, MultipartFile[] files) throws IOException;
 
     void addVideoWorks(int userId, String content, MultipartFile file, MultipartFile cover) throws IOException;
@@ -22,4 +24,6 @@ public interface WorksService extends IService<Works> {
      * @param currentUserId 没有就传-1
      */
     List<Integer> getRandomWorks(int currentUserId, int size);
+
+    List<WorksResult> getWorksByUserId(int currentUserId, int userId);
 }

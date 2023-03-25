@@ -13,7 +13,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="12dp"
-            android:padding="8dp"
+            android:padding="10dp"
+            android:id="@+id/back"
             android:src="@drawable/ic_baseline_arrow_back_24" />
 
         <com.google.android.material.tabs.TabLayout

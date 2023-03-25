@@ -17,6 +17,7 @@ import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.pm.BaseView;
 import com.lifengqiang.video.data.result.Remark;
 import com.lifengqiang.video.ui.main.remark.reply.ReplyActivity;
+import com.lifengqiang.video.ui.uspace.UserSpaceActivity;
 
 public class RemarkView extends BaseView<RemarkActivity> implements RemarkAdapter.Callback {
     private EditText input;
@@ -55,7 +56,9 @@ public class RemarkView extends BaseView<RemarkActivity> implements RemarkAdapte
 
     @Override
     public void onOpenUserSpace(Remark data, int position) {
-
+        Intent intent = new Intent(getContext(), UserSpaceActivity.class);
+        intent.putExtra(UserSpaceActivity.USER_ID, data.getUserId());
+        getContext().startActivity(intent);
     }
 
     @Override

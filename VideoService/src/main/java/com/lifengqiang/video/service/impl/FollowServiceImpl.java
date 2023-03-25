@@ -7,16 +7,19 @@ import com.lifengqiang.video.mapper.FollowMapper;
 import com.lifengqiang.video.model.entity.Collect;
 import com.lifengqiang.video.model.entity.Follow;
 import com.lifengqiang.video.model.entity.User;
+import com.lifengqiang.video.model.entity.Works;
 import com.lifengqiang.video.model.result.UserDetails;
 import com.lifengqiang.video.model.result.UserFollow;
 import com.lifengqiang.video.service.FollowService;
 import com.lifengqiang.video.service.UserService;
+import com.lifengqiang.video.service.WorksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -24,6 +27,10 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
     @Resource
     @Lazy
     UserService userService;
+
+    @Resource
+    @Lazy
+    WorksService worksService;
 
     @Override
     public int getFollowCount(int userId) {
@@ -133,5 +140,35 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
             follows.add(follow);
         }
         return follows;
+    }
+
+    @Override
+    public List<Integer> getFollowWorksIdList(int userId) {
+        List<UserFollow> follows = getFollows(userId);
+        List<Integer> userIds = new ArrayList<>();
+        for (UserFollow follow : follows) {
+            userIds.add(follow.getUserId());
+        }
+        List<Integer> worksIds = new ArrayList<>();
+        for (Integer id : userIds) {
+            List<Works> works = worksService
+                    .list(new QueryWrapper<Works>()
+                            .lambda()
+                            .eq(Works::getUserId, id));
+            for (Works work : works) {
+                worksIds.add(work.getId());
+            }
+        }
+        return worksIds;
+    }
+
+    @Override
+    public List<Works> getFriendWorksIdList(int userId) {
+        List<Integer> ids = baseMapper.selectFriendIdsByUserId(userId);
+        ids.remove((Integer) userId);
+        ids.add(userId);
+        List<Works> works = worksService.listByIds(ids);
+        works.sort((o1, o2) -> Long.compare(o2.getCreateTime(), o1.getCreateTime()));
+        return works;
     }
 }

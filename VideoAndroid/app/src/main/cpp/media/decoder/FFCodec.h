@@ -52,13 +52,22 @@ public:
     int mDurationSecond = 0;
     int mCurrentSecond = -1;
 
+    bool exit = false;
+
 private:
     static void *run(void *);
 
     void loop();
 
+    void release();
+
 public:
     FFCodec(int type);
+
+    ~FFCodec() {
+        exit = true;
+        notify();
+    }
 
     void setPath(const char *path) {
         mPath = path;

@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.lifengqiang.video.R;
 import com.lifengqiang.video.base.fragment.PresenterFragment;
-import com.lifengqiang.video.ui.search.SearchActivity;
 
 public class MessageFragment extends PresenterFragment<MessageView> {
     @Nullable
@@ -23,6 +22,10 @@ public class MessageFragment extends PresenterFragment<MessageView> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        click(R.id.search, () -> SearchActivity.start(requireContext()));
+
+    }
+
+    private void loadNewData(){
+
     }
 }

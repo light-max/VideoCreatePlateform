@@ -26,23 +26,19 @@ private:
     unsigned int textureId[3];
 
     glm::mat4 mvp_matrix;
-    float *vertex = nullptr;
-    float texture_coord[8] = {
-            0, 0,
-            1, 0,
-            0, 1,
-            1, 1,
+    glm::vec2 vertex[4] = {
+            glm::vec2(-1, 1),
+            glm::vec2(1, 1),
+            glm::vec2(-1, -1),
+            glm::vec2(1, -1),
+    };
+    glm::vec2 texture_coord[4] = {
+            glm::vec2(0, 0),
+            glm::vec2(1, 0),
+            glm::vec2(0, 1),
+            glm::vec2(1, 1),
     };
 public:
-    VideoRenderer() {
-        vertex = new float[]{
-                -1, 1,
-                1, 1,
-                -1, -1,
-                1, -1
-        };
-    }
-
     void onCreated();
 
     void onSizeChanged(int width, int height);
@@ -70,12 +66,10 @@ public:
         model = glm::translate(model, glm::vec3(0.f, 0.f, 0.f));
         mvp_matrix = projection * view * model;
         float height = videoSize.y / videoSize.x;
-        vertex = new float[]{
-                -1, height,
-                1, height,
-                -1, -height,
-                1, -height
-        };
+        vertex[0] = glm::vec2(-1, height);
+        vertex[1] = glm::vec2(1, height);
+        vertex[2] = glm::vec2(-1, -height);
+        vertex[3] = glm::vec2(1, -height);
     }
 };
 

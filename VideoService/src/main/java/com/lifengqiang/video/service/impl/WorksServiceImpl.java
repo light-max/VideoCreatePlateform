@@ -1,5 +1,6 @@
 package com.lifengqiang.video.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lifengqiang.video.mapper.UserMapper;
 import com.lifengqiang.video.mapper.WorksMapper;
@@ -91,6 +92,15 @@ public class WorksServiceImpl extends ServiceImpl<WorksMapper, Works> implements
     }
 
     @Override
+    public List<WorksResult> getResultList(int currentUserId, List<Works> works) {
+        List<WorksResult> results = new ArrayList<>();
+        for (Works work : works) {
+            results.add(getResult(currentUserId, work));
+        }
+        return results;
+    }
+
+    @Override
     public void addImagesWorks(int userId, String content, MultipartFile[] files) throws IOException {
         Works works = Works.builder()
                 .userId(userId)
@@ -148,5 +158,14 @@ public class WorksServiceImpl extends ServiceImpl<WorksMapper, Works> implements
             result.add(ids.remove(index));
         }
         return result;
+    }
+
+    @Override
+    public List<WorksResult> getWorksByUserId(int currentUserId, int userId) {
+        List<Works> list = list(new QueryWrapper<Works>()
+                .lambda()
+                .orderByDesc(Works::getCreateTime)
+                .eq(Works::getUserId, userId));
+        return getResultList(userId, list);
     }
 }

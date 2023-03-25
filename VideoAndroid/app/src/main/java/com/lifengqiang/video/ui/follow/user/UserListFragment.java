@@ -1,6 +1,7 @@
 package com.lifengqiang.video.ui.follow.user;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.api.ExRequestBuilder;
 import com.lifengqiang.video.base.fragment.PresenterFragment;
 import com.lifengqiang.video.data.result.UserFollow;
+import com.lifengqiang.video.ui.uspace.UserSpaceActivity;
 
 public class UserListFragment extends PresenterFragment<UserListView> implements UserListAdapter.Callback {
     @Nullable
@@ -47,7 +49,9 @@ public class UserListFragment extends PresenterFragment<UserListView> implements
 
     @Override
     public void openUserSpace(UserFollow user, int position) {
-
+        Intent intent = new Intent(requireContext(), UserSpaceActivity.class);
+        intent.putExtra(UserSpaceActivity.USER_ID, user.getUserId());
+        startActivity(intent);
     }
 
     @Override

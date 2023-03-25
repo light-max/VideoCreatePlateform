@@ -4,6 +4,7 @@ import com.lifengqiang.video.model.data.Result;
 import com.lifengqiang.video.model.entity.User;
 import com.lifengqiang.video.model.request.UserInfo;
 import com.lifengqiang.video.model.result.UserDetails;
+import com.lifengqiang.video.service.FollowService;
 import com.lifengqiang.video.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,19 @@ public class UserController {
     @Resource
     UserService service;
 
+    @Resource
+    FollowService followService;
+
     @GetMapping("/api/user/details/{id}")
     @ResponseBody
-    public Result<UserDetails> getUserDetails(@PathVariable Integer id) {
-        return Result.success(service.getDetails(id));
+    public Result<UserDetails> getUserDetails(
+            @SessionAttribute(value = "user", required = false) User user,
+            @PathVariable Integer id
+    ) {
+        UserDetails data = service.getDetails(id);
+        int currentUserId = user == null ? 0 : user.getId();
+        data.setFriend(followService.isFriend(currentUserId, id));
+        return Result.success(data);
     }
 
     @GetMapping("/user/details")

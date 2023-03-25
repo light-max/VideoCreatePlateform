@@ -59,8 +59,8 @@ void VideoRenderer::onDraw() {
                 return;
             }
             glUseProgram(program);
-            glVertexAttribPointer(handle[0], 2, GL_FLOAT, false, 8, vertex);
-            glVertexAttribPointer(handle[1], 2, GL_FLOAT, false, 8, texture_coord);
+            glVertexAttribPointer(handle[0], 2, GL_FLOAT, false, 8, &vertex[0][0]);
+            glVertexAttribPointer(handle[1], 2, GL_FLOAT, false, 8, &texture_coord[0][0]);
             glUniformMatrix4fv(handle[2], 1, false, &mvp_matrix[0][0]);
 #ifdef USE_RGBA
             glActiveTexture(GL_TEXTURE0);
@@ -91,7 +91,7 @@ void VideoRenderer::onDraw() {
                          GL_UNSIGNED_BYTE, buffer->getV());
 #endif
             glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        }else{
+        } else {
             LOGI("none");
         }
         buffer->unlock();

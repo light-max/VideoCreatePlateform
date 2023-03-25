@@ -40,13 +40,15 @@ void FFCodecAudio::continueDecode() {
         mRenderCallback(mListener, pcm_data, size);
     }
 
-    long current_time = av_gettime();
-    long diff = current_time - mStartTime;
-    long frame_time = (long) (mFrame->pts * 1000000.0 * av_q2d(mTimeBase));
-    long s = frame_time - diff;
-    if (s >= 0) {
-        av_usleep(s);
-    }
+    //看jAudioTrack.write(,,0 or 1)
+//    long current_time = av_gettime();
+//    long diff = current_time - mStartTime;
+//    long frame_time = (long) (mFrame->pts * 1000000.0 * av_q2d(mTimeBase));
+//    long s = frame_time - diff;
+//    if (s >= 0) {
+//        av_usleep(s);
+//        LOGI("%ld",s);
+//    }
 }
 
 

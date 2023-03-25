@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.lifengqiang.video.R;
@@ -16,12 +20,56 @@ import com.lifengqiang.video.ui.main.BaseMainPageChildView;
 import com.lifengqiang.video.utils.GlideRequests;
 
 public class MineView extends BaseMainPageChildView<MineFragment> {
+    private RecyclerView recycler;
+    private VideoListAdapter[] adapters;
+    private MutableLiveData<Integer>[] counts = new MutableLiveData[]{
+            new MutableLiveData<Integer>(),
+            new MutableLiveData<Integer>(),
+            new MutableLiveData<Integer>(),
+    };
+
+    @Override
+    public void onCreate(Bundle saveInstanceState) {
+        adapters = new VideoListAdapter[]{
+                new VideoListAdapter("/user/works/all/list", counts[0]),
+                new VideoListAdapter("/user/works/like/all/list", counts[1]),
+                new VideoListAdapter("/user/works/collect/all/list", counts[2]),
+        };
+        for (VideoListAdapter adapter : adapters) {
+            adapter.setOnItemClickListener(getPresenter());
+            adapter.requestData();
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState) {
         super.onViewCreated(view, saveInstanceState);
         UserDetailsData.ob(this, this::setUserData);
         TabLayout tab = get(R.id.tab);
+        recycler = get(R.id.recycler);
+        recycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                for (MutableLiveData<Integer> count : counts) {
+                    count.removeObservers(getPresenter());
+                }
+                recycler.setAdapter(adapters[tab.getPosition()]);
+                counts[tab.getPosition()].observe(getPresenter(), value -> {
+                    recycler.setVisibility(value > 0 ? View.VISIBLE : View.GONE);
+                    get(R.id.empty).setVisibility(value > 0 ? View.GONE : View.VISIBLE);
+                });
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
         tab.addTab(tab.newTab().setText("作品"));
         tab.addTab(tab.newTab().setText("喜欢"));
         tab.addTab(tab.newTab().setText("收藏"));

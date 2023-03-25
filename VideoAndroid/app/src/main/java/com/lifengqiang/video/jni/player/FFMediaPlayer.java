@@ -9,7 +9,7 @@ import com.lifengqiang.video.jni.interfaces.NativeObject;
 import com.lifengqiang.video.jni.interfaces.PlayerCallback;
 
 public class FFMediaPlayer extends NativeObject {
-    private AudioTrack track;
+    private static AudioTrack track;
 
     public FFMediaPlayer() {
         initAudioTrack();
@@ -38,26 +38,28 @@ public class FFMediaPlayer extends NativeObject {
     public native void clearFrameBuffer();
 
     public void initAudioTrack() {
-        if (track != null) {
-            track.stop();
-            track.release();
+//        if (track != null) {
+//            track.stop();
+//            track.release();
+//        }
+        if (track == null) {
+            int minBufferSize = AudioTrack.getMinBufferSize(44100, 2, AudioFormat.ENCODING_PCM_16BIT);
+            track = new AudioTrack.Builder()
+                    .setAudioFormat(new AudioFormat.Builder()
+                            .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
+                            .setSampleRate(44100)
+                            .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                            .build())
+                    .setAudioAttributes(new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
+                            .build()
+                    )
+                    .setTransferMode(AudioTrack.MODE_STREAM)
+                    .setBufferSizeInBytes(minBufferSize)
+                    .build();
+            track.play();
         }
-        int minBufferSize = AudioTrack.getMinBufferSize(44100, 2, AudioFormat.ENCODING_PCM_16BIT);
-        track = new AudioTrack.Builder()
-                .setAudioFormat(new AudioFormat.Builder()
-                        .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
-                        .setSampleRate(44100)
-                        .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-                        .build())
-                .setAudioAttributes(new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
-                        .build()
-                )
-                .setTransferMode(AudioTrack.MODE_STREAM)
-                .setBufferSizeInBytes(minBufferSize)
-                .build();
-        track.play();
         setAudioTrack(track);
     }
 
@@ -66,10 +68,15 @@ public class FFMediaPlayer extends NativeObject {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
+        release();
+    }
+
+    public void release() {
+//        if (track != null) {
+//            track.stop();
+//            track.release();
+//            track = null;
+//        }
         super.releaseNativeObject();
-        if (track != null) {
-            track.stop();
-            track.release();
-        }
     }
 }

@@ -19,7 +19,7 @@
         android:paddingEnd="8dp">
 
         <ImageView
-            android:id="@+id/add"
+            android:id="@+id/create_model"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="10dp"
@@ -50,11 +50,30 @@
         android:layout_height="1dp"
         android:background="@color/gray_eee" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
+        android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="没有消息"
+        android:textColor="@color/gray_888"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/swipe"
         android:layout_weight="1"
-        android:id="@+id/recycler"/>
+        android:layout_height="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <View
         android:layout_width="match_parent"

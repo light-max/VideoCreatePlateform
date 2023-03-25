@@ -79,4 +79,8 @@ public class PresenterFragment<V extends BaseView<?>> extends Fragment implement
         }
         return globalVariableMap;
     }
+
+    public Handler getMainHandler() {
+        return mainHandler;
+    }
 }

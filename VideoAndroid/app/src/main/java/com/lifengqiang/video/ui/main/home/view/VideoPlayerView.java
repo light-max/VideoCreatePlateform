@@ -131,4 +131,10 @@ public class VideoPlayerView extends LinearLayout implements HttpVideoLoader.Cal
 //            player.goon();
 //        },500);
     }
+
+    public void release(){
+        surfaceView.setVisibility(GONE);
+        renderer.release();
+        player.release();
+    }
 }

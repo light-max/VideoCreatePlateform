@@ -8,6 +8,8 @@ import com.lifengqiang.video.model.entity.Like;
 import com.lifengqiang.video.service.LikeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LikeServiceImpl extends ServiceImpl<LikeMapper, Like> implements LikeService {
     @Override
@@ -46,5 +48,10 @@ public class LikeServiceImpl extends ServiceImpl<LikeMapper, Like> implements Li
             removeById(like.getId());
             return false;
         }
+    }
+
+    @Override
+    public List<Integer> getLikeWorksIdList(int userId) {
+        return baseMapper.getWorksIdListByUserId(userId);
     }
 }

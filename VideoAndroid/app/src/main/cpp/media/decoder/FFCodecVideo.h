@@ -25,7 +25,7 @@ class FFCodecVideo : public FFCodec {
 private:
     //==========video===============
     SwsContext *sws = nullptr;
-    AVFrame * i420Frame = nullptr;
+    AVFrame *i420Frame = nullptr;
     //计算出转换为RGB所需要的容器的大小
     //接收的容器
     uint8_t *dst_data[4] = {nullptr};

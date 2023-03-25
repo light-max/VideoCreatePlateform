@@ -24,7 +24,7 @@ public:
         int status;
         JNIEnv *env = android::jni::get_current_thread_env(&status);
         jobject buffer = env->NewDirectByteBuffer(data, size);
-        env->CallIntMethod(mObject, methodId, buffer, size, 1);
+        env->CallIntMethod(mObject, methodId, buffer, size, 0);
         if (status < 0) {
             android::jni::detach_current_thread_env();
         }

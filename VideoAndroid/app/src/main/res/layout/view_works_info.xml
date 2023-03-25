@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@color/black"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="84dp">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_head_white_border">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="4dp">
+
+                    <ImageView
+                        android:id="@+id/head"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/ic_launcher_background" />
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/add_follow"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center|bottom"
+                android:src="@drawable/ic_add_follow" />
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_love_true" />
+
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="100" />
+
+        <ImageView
+            android:id="@+id/remark"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_remark" />
+
+        <TextView
+            android:id="@+id/remark_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="100" />
+
+        <ImageView
+            android:id="@+id/collect"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_collect_true" />
+
+        <TextView
+            android:id="@+id/collect_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="100" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="64dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#AAFFFFFF"
+        android:textSize="16sp"
+        tools:text="adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅adfa反对恢复打赏放大沙发沙发的法大师傅大师傅" />
+
+
+</FrameLayout>

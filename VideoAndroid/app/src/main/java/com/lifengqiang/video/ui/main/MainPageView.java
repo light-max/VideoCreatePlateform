@@ -34,8 +34,8 @@ public class MainPageView extends BaseView<MainPageActivity> {
             R.id.mine
     };
     private final boolean[][] themes = new boolean[][]{
-            {true, true, false, true},
-            {true, true, false, false},
+            {true, false, false, true},
+            {true, false, false, false},
     };
 
     private Fragment currentFragment = null;

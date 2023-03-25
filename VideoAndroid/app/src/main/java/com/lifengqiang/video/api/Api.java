@@ -6,9 +6,11 @@ import com.lifengqiang.video.data.observer.UserDetailsData;
 import com.lifengqiang.video.data.request.NewUserInfo;
 import com.lifengqiang.video.data.result.CollectState;
 import com.lifengqiang.video.data.result.FollowState;
+import com.lifengqiang.video.data.result.ISFriend;
 import com.lifengqiang.video.data.result.LikeState;
 import com.lifengqiang.video.data.result.Remark;
 import com.lifengqiang.video.data.result.Reply;
+import com.lifengqiang.video.data.result.SearchValue;
 import com.lifengqiang.video.data.result.User;
 import com.lifengqiang.video.data.result.Works;
 
@@ -53,6 +55,13 @@ public class Api {
                 .success(UserDetailsData::post);
     }
 
+    public static Async.Builder<User> getUserDetails(int userId) {
+        return ExRequestBuilder.get("/api/user/details/{id}")
+                .path("id", userId)
+                .<ExRequestBuilder>as()
+                .async(User.class);
+    }
+
     public static Async.Builder<?> setHead(File file) {
         return ExRequestBuilder.post("/user/head")
                 .form()
@@ -87,9 +96,31 @@ public class Api {
                 .async();
     }
 
+    public static Async.Builder<?> resetRandomWorksIds() {
+        return ExRequestBuilder.get("/works/recommend/random/ids/reset")
+                .async();
+    }
+
     public static Async.Builder<List<Integer>> getRandomWorksIds() {
         return ExRequestBuilder.get("/works/recommend/random/ids")
                 .asyncList(Integer.class);
+    }
+
+    public static Async.Builder<List<Integer>> getFollowWorksIds() {
+        return ExRequestBuilder.get("/user/works/id/follow/all/list")
+                .asyncList(Integer.class);
+    }
+
+    public static Async.Builder<List<Works>> getFriendWorksList() {
+        return ExRequestBuilder.get("/user/works/friend/all/list")
+                .asyncList(Works.class);
+    }
+
+    public static Async.Builder<List<Works>> getUserWorksList(int userId) {
+        return ExRequestBuilder.get("/api/works/byuserid")
+                .param("userId", userId)
+                .<ExRequestBuilder>as()
+                .asyncList(Works.class);
     }
 
     public static Async.Builder<Works> getWorks(int worksId) {
@@ -175,5 +206,26 @@ public class Api {
                 .path("targetId", targetId)
                 .<ExRequestBuilder>as()
                 .async(FollowState.class);
+    }
+
+    public static Async.Builder<List<SearchValue>> searchUsers(String w) {
+        return ExRequestBuilder.get("/search/user/all/list")
+                .param("w", w)
+                .<ExRequestBuilder>as()
+                .asyncList(SearchValue.class);
+    }
+
+    public static Async.Builder<List<Works>> searchWorks(String w) {
+        return ExRequestBuilder.get("/search/works/all/list")
+                .param("w", w)
+                .<ExRequestBuilder>as()
+                .asyncList(Works.class);
+    }
+
+    public static Async.Builder<ISFriend> isFriend(int targetId) {
+        return ExRequestBuilder.get("/user/friend/{id}")
+                .path("id", targetId)
+                .<ExRequestBuilder>as()
+                .async(ISFriend.class);
     }
 }

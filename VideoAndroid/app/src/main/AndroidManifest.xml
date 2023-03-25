@@ -47,6 +47,8 @@
         <activity android:name=".ui.main.remark.remark.RemarkActivity" />
         <activity android:name=".ui.main.remark.reply.ReplyActivity" />
         <activity android:name=".ui.follow.FollowActivity" />
+        <activity android:name=".ui.works.WorksPlayerActivity" />
+        <activity android:name=".ui.uspace.UserSpaceActivity" />
     </application>
 
 </manifest>

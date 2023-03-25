@@ -38,7 +38,7 @@ void FFCodec::notify() {
 
 void FFCodec::loop() {
     notify();
-    while (true) {
+    while (!exit) {
         msg::Msg &m = mQueue->pull_not_null();
         int m_type = m.getType();
         if (m_type == msg::type::MediaChange) {
@@ -86,6 +86,8 @@ void FFCodec::loop() {
             mQueue->pop();
         }
     }
+    release();
+    LOGI("exit");
 }
 
 bool FFCodec::_prepareMedia(const char *path) {
@@ -227,4 +229,25 @@ void FFCodec::seekProgressBySecond(int second) {
     );
     avcodec_flush_buffers(mCodecContext);
     mIsSeek = true;
+}
+
+void FFCodec::release() {
+    if (mFormatContext != nullptr) {
+        avformat_close_input(&mFormatContext);
+    }
+    if (mCodecParameters != nullptr) {
+        avcodec_parameters_free(&mCodecParameters);
+    }
+    if (mCodecContext != nullptr) {
+        avcodec_close(mCodecContext);
+        mCodecContext = nullptr;
+    }
+    if (mPacket != nullptr) {
+        av_packet_unref(mPacket);
+        av_packet_free(&mPacket);
+    }
+    if (mFrame != nullptr) {
+        av_frame_unref(mFrame);
+        av_frame_free(&mFrame);
+    }
 }

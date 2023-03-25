@@ -1,11 +1,13 @@
 package com.lifengqiang.video.ui.main.home.view;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.lifengqiang.video.R;
 import com.lifengqiang.video.data.result.Works;
@@ -18,7 +20,11 @@ public class VideoViewContainer extends LinearLayout {
     private Works works;
 
     public VideoViewContainer(@NonNull Context context) {
-        super(context);
+        this(context, null);
+    }
+
+    public VideoViewContainer(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
         View.inflate(context, R.layout.view_video_container, this);
         videoView = findViewById(R.id.video_player);
         imageView = findViewById(R.id.image_player);
@@ -57,5 +63,9 @@ public class VideoViewContainer extends LinearLayout {
 
     public ImageView getCoverImage() {
         return coverImage;
+    }
+
+    public void release() {
+        videoView.release();
     }
 }

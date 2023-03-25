@@ -13,5 +13,6 @@ public class FollowActivity extends FullScreenActivity<FollowView> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
         addStatusBarFillView(getStateBarHeight());
+        click(R.id.back, this::finish);
     }
 }
