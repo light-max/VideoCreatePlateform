@@ -26,6 +26,7 @@ public class LoginController {
     @PostMapping("/user/login")
     @ResponseBody
     public Result<UserDetails> login(HttpSession session, String username, String password) {
+        session.removeAttribute("recommend_random");
         Result<User> result = service.user(username, password);
         if (result.isSuccess()) {
             session.setAttribute("user", result.getData());

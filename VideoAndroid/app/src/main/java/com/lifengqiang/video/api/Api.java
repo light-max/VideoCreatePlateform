@@ -7,7 +7,9 @@ import com.lifengqiang.video.data.request.NewUserInfo;
 import com.lifengqiang.video.data.result.CollectState;
 import com.lifengqiang.video.data.result.FollowState;
 import com.lifengqiang.video.data.result.ISFriend;
+import com.lifengqiang.video.data.result.LastMessage;
 import com.lifengqiang.video.data.result.LikeState;
+import com.lifengqiang.video.data.result.Message;
 import com.lifengqiang.video.data.result.Remark;
 import com.lifengqiang.video.data.result.Reply;
 import com.lifengqiang.video.data.result.SearchValue;
@@ -227,5 +229,26 @@ public class Api {
                 .path("id", targetId)
                 .<ExRequestBuilder>as()
                 .async(ISFriend.class);
+    }
+
+    public static Async.Builder<Message> sendMessage(int receive, String content) {
+        return ExRequestBuilder.post("/user/message")
+                .form()
+                .field("receive", receive)
+                .field("content", content)
+                .<ExRequestBuilder>as()
+                .async(Message.class);
+    }
+
+    public static Async.Builder<List<Message>> getMessageListAll(int receive) {
+        return ExRequestBuilder.get("/user/message/list/all")
+                .param("receive", receive)
+                .<ExRequestBuilder>as()
+                .asyncList(Message.class);
+    }
+
+    public static Async.Builder<List<LastMessage>> getUserMessage() {
+        return ExRequestBuilder.get("/user/message/group/all")
+                .asyncList(LastMessage.class);
     }
 }

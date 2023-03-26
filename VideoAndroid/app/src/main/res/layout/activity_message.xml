@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_eee"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -12,25 +13,27 @@
         android:layout_weight="1"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_eee" />
-
-    <EditText
-        android:id="@+id/input"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_input"
-        android:hint="请输入留言消息..."
-        android:imeOptions="actionSend"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@color/gray_888"
-        android:textSize="16sp" />
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_input"
+            android:hint="请输入留言消息..."
+            android:imeOptions="actionSend"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_888"
+            android:textSize="16sp" />
+
+    </FrameLayout>
 
 </LinearLayout>

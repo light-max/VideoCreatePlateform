@@ -1,4 +1,4 @@
-package com.lifengqiang.video.ui.main.remark.reply;
+package com.lifengqiang.video.ui.remark.reply;
 
 import android.view.View;
 import android.widget.TextView;

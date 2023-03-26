@@ -106,7 +106,12 @@ public class HomeFragment extends PresenterFragment<HomeView> implements Vertica
                 index = 0;
                 ids.clear();
                 ids.addAll(data);
-                getIView().getVideoContainer().loadVideo();
+                if (ids.size() == 0) {
+                    get(R.id.recommend).callOnClick();
+                    toast("没有关注的内容");
+                } else {
+                    getIView().getVideoContainer().loadVideo();
+                }
             }).run();
         }
     }

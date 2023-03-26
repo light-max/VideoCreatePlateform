@@ -44,11 +44,12 @@
         <activity android:name=".ui.create.photo.video.PhotoVideoActivity" />
         <activity android:name=".ui.create.submit.video.SubmitVideoActivity" />
         <activity android:name=".ui.create.submit.image.SubmitImageActivity" />
-        <activity android:name=".ui.main.remark.remark.RemarkActivity" />
-        <activity android:name=".ui.main.remark.reply.ReplyActivity" />
+        <activity android:name=".ui.remark.remark.RemarkActivity" />
+        <activity android:name=".ui.remark.reply.ReplyActivity" />
         <activity android:name=".ui.follow.FollowActivity" />
         <activity android:name=".ui.works.WorksPlayerActivity" />
         <activity android:name=".ui.uspace.UserSpaceActivity" />
+        <activity android:name=".ui.message.MessageActivity" />
     </application>
 
 </manifest>

@@ -18,17 +18,17 @@ public class UserSpaceActivity extends FullScreenActivity<UserSpaceView> {
         super.onCreate(savedInstanceState);
         setStatusBar(true);
         setContentView(R.layout.activity_user_space);
-        Api.getUserDetails(getUserId()).success(data -> {
+        Api.getUserDetails(getTargetUserId()).success(data -> {
             getIView().setUserData(data);
         }).run();
-        Api.getUserWorksList(getUserId()).success(data -> {
+        Api.getUserWorksList(getTargetUserId()).success(data -> {
             getIView().getAdapter().setData(data);
             getIView().getAdapter().notifyDataSetChanged();
             getIView().getWorksCount().setText("共" + data.size() + "个作品");
         }).run();
     }
 
-    public int getUserId() {
+    public int getTargetUserId() {
         return getIntent().getIntExtra(USER_ID, 0);
     }
 }

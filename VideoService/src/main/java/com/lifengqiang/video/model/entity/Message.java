@@ -37,4 +37,8 @@ public class Message implements FieldCheckInterface<Message> {
     public void generateRelationKey() {
         relationKey = Math.min(sendId, receiveId) + "_" + Math.max(sendId, receiveId);
     }
+
+    public static String generateRelationKey(int user0, int user1) {
+        return Math.min(user0, user1) + "_" + Math.max(user0, user1);
+    }
 }

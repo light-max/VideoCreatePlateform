@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -112,9 +113,13 @@ public class WorksController {
     public Result<List<WorksResult>> getUserLikeWorksList(@SessionAttribute("user") User user) {
         List<Integer> worksIds = likeService.getLikeWorksIdList(user.getId());
         Collections.reverse(worksIds);
-        List<Works> works = service.listByIds(worksIds);
-        List<WorksResult> results = service.getResultList(user.getId(), works);
-        return Result.success(results);
+        if (!worksIds.isEmpty()) {
+            List<Works> works = service.listByIds(worksIds);
+            List<WorksResult> results = service.getResultList(user.getId(), works);
+            return Result.success(results);
+        } else {
+            return Result.success(new ArrayList<>());
+        }
     }
 
     @GetMapping("/user/works/collect/all/list")
@@ -122,9 +127,13 @@ public class WorksController {
     public Result<List<WorksResult>> getUserCollectWorksList(@SessionAttribute("user") User user) {
         List<Integer> worksIds = collectService.getCollectWorksIdList(user.getId());
         Collections.reverse(worksIds);
-        List<Works> works = service.listByIds(worksIds);
-        List<WorksResult> results = service.getResultList(user.getId(), works);
-        return Result.success(results);
+        if (!worksIds.isEmpty()) {
+            List<Works> works = service.listByIds(worksIds);
+            List<WorksResult> results = service.getResultList(user.getId(), works);
+            return Result.success(results);
+        } else {
+            return Result.success(new ArrayList<>());
+        }
     }
 
     @GetMapping("/user/works/id/follow/all/list")
@@ -140,9 +149,13 @@ public class WorksController {
     public Result<List<WorksResult>> getUserFollowWorksList(@SessionAttribute("user") User user) {
         List<Integer> worksIds = followService.getFollowWorksIdList(user.getId());
         Collections.reverse(worksIds);
-        List<Works> works = service.listByIds(worksIds);
-        List<WorksResult> results = service.getResultList(user.getId(), works);
-        return Result.success(results);
+        if (!worksIds.isEmpty()) {
+            List<Works> works = service.listByIds(worksIds);
+            List<WorksResult> results = service.getResultList(user.getId(), works);
+            return Result.success(results);
+        } else {
+            return Result.success(new ArrayList<>());
+        }
     }
 
     @GetMapping("/user/works/friend/all/list")

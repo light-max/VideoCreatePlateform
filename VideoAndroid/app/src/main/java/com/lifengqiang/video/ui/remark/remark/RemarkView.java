@@ -1,4 +1,4 @@
-package com.lifengqiang.video.ui.main.remark.remark;
+package com.lifengqiang.video.ui.remark.remark;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,7 +16,7 @@ import com.lifengqiang.video.R;
 import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.pm.BaseView;
 import com.lifengqiang.video.data.result.Remark;
-import com.lifengqiang.video.ui.main.remark.reply.ReplyActivity;
+import com.lifengqiang.video.ui.remark.reply.ReplyActivity;
 import com.lifengqiang.video.ui.uspace.UserSpaceActivity;
 
 public class RemarkView extends BaseView<RemarkActivity> implements RemarkAdapter.Callback {

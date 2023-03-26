@@ -1,4 +1,4 @@
-package com.lifengqiang.video.ui.main.remark.remark;
+package com.lifengqiang.video.ui.remark.remark;
 
 import android.view.View;
 

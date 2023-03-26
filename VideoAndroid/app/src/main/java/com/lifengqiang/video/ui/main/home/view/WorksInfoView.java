@@ -17,7 +17,7 @@ import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.api.ExRequestBuilder;
 import com.lifengqiang.video.base.call.ViewGet;
 import com.lifengqiang.video.data.result.Works;
-import com.lifengqiang.video.ui.main.remark.remark.RemarkActivity;
+import com.lifengqiang.video.ui.remark.remark.RemarkActivity;
 import com.lifengqiang.video.ui.uspace.UserSpaceActivity;
 import com.lifengqiang.video.utils.GlideRequests;
 

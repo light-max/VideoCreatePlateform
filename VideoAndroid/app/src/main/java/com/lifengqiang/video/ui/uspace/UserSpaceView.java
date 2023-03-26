@@ -87,7 +87,7 @@ public class UserSpaceView extends BaseView<UserSpaceActivity> {
             getContext().startActivity(intent);
         });
         click(followState, () -> {
-            Api.follow(getPresenter().getUserId())
+            Api.follow(getPresenter().getTargetUserId())
                     .error((message, e) -> toast(message))
                     .success(data -> setFollowState(followState))
                     .run();
@@ -96,7 +96,7 @@ public class UserSpaceView extends BaseView<UserSpaceActivity> {
     }
 
     private void setFollowState(TextView text) {
-        Api.isFriend(getPresenter().getUserId())
+        Api.isFriend(getPresenter().getTargetUserId())
                 .error((message, e) -> text.setText("关注"))
                 .success(data -> {
                     if (data.isFriend()) {

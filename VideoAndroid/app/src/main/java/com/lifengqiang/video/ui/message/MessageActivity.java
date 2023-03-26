@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.lifengqiang.video.R;
+import com.lifengqiang.video.api.Api;
 import com.lifengqiang.video.base.activity.CaptionedActivity;
 import com.lifengqiang.video.data.observer.UserDetailsData;
 import com.lifengqiang.video.data.result.User;
@@ -21,14 +22,38 @@ public class MessageActivity extends CaptionedActivity<MessageView> {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStatusBar(true);
-        setPageTitle("留言消息");
+        setPageTitle(getNickname());
         setContentView(R.layout.activity_message);
         AndroidBug5497Workaround.assistActivity(this);
         me = UserDetailsData.getInstance().getValue();
-        
+        loadNewData();
     }
 
-    public int getUserId() {
+    public void sendMessage(String content) {
+        Api.sendMessage(getReceiveId(), content)
+                .error((message, e) -> toast(message))
+                .success(data -> {
+                    MessageListAdapter adapter = getIView().getAdapter();
+                    adapter.getMessages().add(data);
+                    adapter.notifyItemInserted(adapter.getItemCount() - 1);
+                    getIView().scrollLastMessage();
+                }).run();
+    }
+
+    public void loadNewData() {
+        Api.getMessageListAll(getReceiveId()).success(data -> {
+            MessageListAdapter adapter = getIView().getAdapter();
+            adapter.setSender(me.getId());
+            adapter.setReceiverHead(getUserHead());
+            adapter.setMeHead(me.getHead());
+            adapter.getMessages().clear();
+            adapter.getMessages().addAll(data);
+            adapter.notifyDataSetChanged();
+            getIView().scrollLastMessage();
+        }).run();
+    }
+
+    public int getReceiveId() {
         return getIntent().getIntExtra(USER_ID, 0);
     }
 
