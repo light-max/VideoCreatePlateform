@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>视频分享后台系统</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/comm.css">
+
+    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.js"></script>
+    <script src="/js/net.js"></script>
+
+    <style>
+        .images {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 360px 360px 360px;
+        }
+
+        .item {
+            text-align: center;
+        }
+
+        .item-img {
+            margin-bottom: 8px;
+            border-radius: 12px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    </style>
+
+    <script>
+    </script>
+</head>
+<body>
+
+<div th:replace="common/admin::navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="common/admin::sidebarMenu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"> 图集</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                </div>
+            </div>
+            <div class="images">
+                <div class="item" th:each="url:${works.images}">
+                    <img class="item-img" th:src="${url}"/>
+                    <a target="_blank" th:href="${url}" class="text-primary">查看大图</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

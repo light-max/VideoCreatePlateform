@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>视频分享后台系统</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/comm.css">
+
+    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.js"></script>
+    <script src="/js/net.js"></script>
+
+    <style>
+        input {
+            width: 160px;
+        }
+    </style>
+
+    <script>
+    </script>
+</head>
+<body>
+
+<div th:replace="common/admin::navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="common/admin::sidebarMenu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">修改登录密码</h1>
+            </div>
+            <form action="/admin/setpwd" method="post" style="width: 400px;">
+                <label for="password0">旧密码</label>
+                <input class="form-control form-text" type="password" id="password0" name="pwd0" placeholder="请输入原来的密码"><br>
+                <label for="password1">新密码</label>
+                <input class="form-control form-text" type="password" id="password1" name="pwd1" placeholder="请输入新密码"><br>
+                <label for="password2">确认密码</label>
+                <input class="form-control form-text" type="password" id="password2" name="pwd2" placeholder="请输入确认密码"><br>
+                <div style="color: #d53232;margin-bottom: 24px" th:if="${error}!=null" th:text="${error}"></div>
+                <input class="btn-primary form-control" type="submit" value="确认修改">
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+</script>

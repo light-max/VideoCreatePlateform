@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>视频分享后台系统</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/comm.css">
+
+    <script src="/webjars/jquery/3.5.1/jquery.js"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.js"></script>
+    <script src="/js/net.js"></script>
+
+    <style>
+
+    </style>
+
+    <script>
+        function deleteWorks(id) {
+            if (confirm("你确定要删除这个作品?")) {
+                net.delete({
+                    url: "/admin/works/" + id,
+                    reload: true,
+                    success: function () {
+                        alert("删除成功")
+                    }
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div th:replace="common/admin::navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="common/admin::sidebarMenu"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2"> 作品列表</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th style="width: 120px">ID</th>
+                    <th style="width: 120px">作者ID</th>
+                    <th style="width: 120px">类型</th>
+                    <th>配文</th>
+                    <th style="width: 180px;text-align: center">发布时间</th>
+                    <th style="width: 120px;text-align: center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="works:${list}">
+                    <th th:text="${works.id}"></th>
+                    <th th:text="${works.userId}"></th>
+                    <th th:text="${type[works.type]}"></th>
+                    <td th:text="${works.content}"></td>
+                    <td class="text-center" th:text="${works.translateDate()}"></td>
+                    <th class="text-center">
+                        <a target="_blank" th:href="'/admin/works/details/'+${works.id}" class="text-primary">详情</a>
+                        <a target="_blank" th:href="'/admin/remark?worksId='+${works.id}" class="text-primary">评论</a>
+                        <a href="#" class="text-danger" th:onclick="'deleteWorks('+${works.id}+')'">删除</a>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div th:replace="common/admin::page"></div>
+            <br>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
