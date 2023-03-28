@@ -47,6 +47,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         List<User> users = new ArrayList<>();
         for (UserAccountData accountData : list) {
             try {
+                int count = count(new QueryWrapper<User>()
+                        .lambda()
+                        .eq(User::getUsername, accountData.getUsername()));
+                if (count > 0) {
+                    throw new FieldCheckException(GlobalConstant.usernameExists.getMessage());
+                }
                 users.add(User.builder()
                         .username(accountData.getUsername())
                         .nickname(accountData.getNickname())
