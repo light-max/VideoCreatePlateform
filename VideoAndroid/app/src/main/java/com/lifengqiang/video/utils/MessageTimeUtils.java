@@ -8,7 +8,6 @@ import java.util.Date;
 public class MessageTimeUtils {
     @SuppressLint("SimpleDateFormat")
     public static String getFuzzyTime(long time) {
-        System.out.println(new SimpleDateFormat("dd HH:mm").format(new Date(time)));
         long millis = System.currentTimeMillis();
         int[] day = new int[]{
                 (int) (millis / 1000 / 60 / 60 / 24),
