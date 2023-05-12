@@ -20,8 +20,8 @@ void GLI420Frame::setImageCanvas(int width, int height, int angle) {
 }
 
 void GLI420Frame::copyDataByAndroidImage(AndroidImage *image) {
+    lock();
     if (width * height == image->getWidth() * image->getHeight()) {
-        lock();
         int *pixel_strides = image->getPixelStride();
         int *row_strides = image->getRowStride();
         auto *buffer = data;
@@ -43,6 +43,6 @@ void GLI420Frame::copyDataByAndroidImage(AndroidImage *image) {
                 }
             }
         }
-        unlock();
     }
+    unlock();
 }

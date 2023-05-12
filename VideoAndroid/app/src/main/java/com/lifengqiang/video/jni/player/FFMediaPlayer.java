@@ -63,7 +63,7 @@ public class FFMediaPlayer extends NativeObject {
         setAudioTrack(track);
     }
 
-    public native void setAudioTrack(AudioTrack track);
+    public synchronized native void setAudioTrack(AudioTrack track);
 
     @Override
     protected void finalize() throws Throwable {
